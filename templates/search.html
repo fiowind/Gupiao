@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>选股</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+    <form method="post">{% csrf_token %}
+    筛选条件<br /><br />
+    <label><input name="v1" type="checkbox" value="1" />动态市盈率小于<input type="text" placeholder="50" name="vp1"></input> </label>
+    <br /><br />
+    <label><input name="v2" type="checkbox" value="2" />连续三季度净利润增长率大于<input type="text" name="vp2" placeholder="25"></input>％</label>
+     <br /><br />
+    <label><input name="v3" type="checkbox" value="3" />连续三年度净利润增长率大于<input type="text" name="vp3" placeholder="25"></input>％</label>
+     <br /><br />
+    <label><input name="v4" type="checkbox" value="4" />总市值小于<input type="text" placeholder="1000" name="vp4"></input>亿 </label>
+     <br /><br />
+    <label><input name="v5" type="checkbox" value="5" />每股资本公积金占股价<input type="text" name="vp5"></input>％以上</label>
+     <br /><br />
+    <label><input name="v6" type="checkbox" value="6" />近三年股价增长率大于<input type="text" name="vp6"></input>％</label>
+     <br /><br />
+    <label><input name="v7" type="checkbox" value="7" />销售毛利润大于<input placeholder="25" type="text" name="vp7"></input>％ </label>
+     <br /><br />
+    <label><input name="v8" type="checkbox" value="8" />主营业务收入增长率（年）<input placeholder="20" name="vp8" type="text"></input>％ </label>
+     <br /><br />
+     <button type="submit" class="btn-primary" id="postsubmit">
+         提交
+     </button>
+    </form>
+
+    <div class="container" style="display:none">
+        <form class="form-signin" role="form" method="post"> {% csrf_token %}
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <input type="text" class="form-control" placeholder="User name" required="required" autofocus="" name="username" value={{ form.username }}>
+            <input type="password" class="form-control" placeholder="Password" required="required" name="password" value={{ form.password }}>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            {# <a class="btn btn-lg btn-primary btn-block" type="button" href="/login/regist">regist</a> #}
+        </form>
+
+    </div>
+</body>
+</html>
