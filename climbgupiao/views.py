@@ -39,12 +39,24 @@ def search(req):
 
         if v4:
             vp4 = req.POST.get('vp4') if req.POST.get('vp4') else 1000.0
-            print vp4
+            # print vp4
             vp4 = float(vp4)*100000000
             if gupiaos:
                 gupiaos = gupiaos.filter(marketCapital__lte=vp4, marketCapital__gt=0)
             else:
                 gupiaos = gupiaolist.objects.filter(marketCapital__lte=vp4, marketCapital__gt=0)
+        if v5:
+            vp5 = req.POST.get('vp5') if req.POST.get('vp5') else 10
+            if gupiaos:
+                gupiaos = gupiaos.filter(test7__gt = vp5)
+            else:
+                gupiaos = gupiaolist.objects.filter(test7__gt = vp5)
+        if v6:
+            vp6 = req.POST.get('vp6') if req.POST.get('vp6') else 100
+            if gupiaos:
+                gupiaos = gupiaos.filter(test3__gt = vp6)
+            else:
+                gupiaos = gupiaolist.objects.filter(test3__gt = vp6)
         if v7:
             vp7 = req.POST.get('vp7') if req.POST.get('vp7') else 25.0
             if gupiaos:

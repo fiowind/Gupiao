@@ -30,7 +30,7 @@ class gupiaolist(models.Model):
     test4 = models.FloatField(default=0)  #一年股价增长
     test5 = models.FloatField(default=0)  #test
     test6 = models.FloatField(default=0)  #test
-    test7 = models.FloatField(default=0)  #test  测试
+    test7 = models.FloatField(default=0)  #每股资本公积金占股价
     test8 = models.FloatField(default=0)  #test  近三年股价增长率
     test9 = models.FloatField(default=0)  #test 2015年新上市
     test10 = models.FloatField(default=0)  #test  xueqiu

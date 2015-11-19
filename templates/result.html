@@ -37,7 +37,8 @@
 	    	  <th>2013(年度)</th>
 	    	  <th>销售毛利率,三季度平均值</th>
 	    	  <th>主营业务收入增长率(3平)</th>
-
+	    	  <th>每股资本公积金占股价</th>
+			  <th>近三年股价增长率</th>
 	    	</tr>
 	        {% if gupiaolist %}
 	        {% for gupiao in gupiaolist %}
@@ -55,6 +56,8 @@
 	            <td>{{ gupiao.netprofit_nd3|roundtwo }}%</td>
 	            <td>{{ gupiao.salegrossprofitrto|roundtwo }}%</td>
 	            <td>{{ gupiao.dilutedroe|roundtwo }}%</td>
+	            <td>{{ gupiao.test7|roundtwo }}%</td>
+	            <td>{{ gupiao.test3|roundtwo }}%</td>
 	        </tr>
 	        {% endfor %}
 	        {% endif %}

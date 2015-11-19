@@ -179,7 +179,7 @@ def caiwu():
 
 
 def dongcai():
-    Gupiaolist = gupiaolist.objects.filter(test10=1,gjj=0)
+    Gupiaolist = gupiaolist.objects.filter(test10=1,gjj=0,test6=0)
     for gupiao in Gupiaolist:
         url = 'http://f10.eastmoney.com/f10_v2/FinanceAnalysis.aspx?code=' + gupiao.symbol
         req = urllib2.Request(url)
@@ -205,19 +205,26 @@ def dongcai():
                 gupiao.save()
                 print 'ok'
             except Exception,e:
+                gupiao = gupiaolist.objects.get(symbol=gupiao.symbol)
+                gupiao.test6 = 1
+                gupiao.save()
                 fout.write(u'%s %s \n' % (gupiao.symbol, e))
                 continue
+        else:
+            gupiao = gupiaolist.objects.get(symbol=gupiao.symbol)
+            gupiao.test6 = 1
+            gupiao.save()
 
 
 def sohuzhangfu():
-    Gupiaolist = gupiaolist.objects.filter(test10=1)
+    Gupiaolist = gupiaolist.objects.filter(test10=1,test6=0)
     for gupiao in Gupiaolist:
         url = 'http://q.stock.sohu.com/hisHq?code=cn_'+gupiao.code+'&start=20131031&end=20151117&stat=1&order=D&period=m&callback=historySearchHandler&rt=jsonp&r=0.9727671290747821&0.9856262989342213'
         req = urllib2.Request(url)
         req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0")
         try:
             res = urllib2.urlopen(req)
-            print gupiao.symbol
+            # print gupiao.symbol
         except Exception, e:
             print e
             print 'notok'
@@ -225,20 +232,34 @@ def sohuzhangfu():
             fout.write(e+'\n')
             continue
         html = res.read().decode('gb2312')
-        x = html.index(u'累计')
-        y = html.index(')')
-        sStr1 = html[x+5:y-1].replace('"','').split(',')
-        print sStr1
-        break
-        # jsonVal = json.loads(sStr1.decode('gb2312'))
-        # print jsonVal
-        # print jsonVal['stat']
-        # print jsonVal[0]['stat']
+        try:
+            x = html.index(u'累计')
+            y = html.index(')')
+            sStr1 = html[x+5:y-1].replace('"','').split(',')
+            print gupiao.symbol
+            gupiao.test3 = sStr1[2].replace('%','')
+            gupiao.test6 = 1
+            gupiao.save()
+        except Exception, e:
+            print u'%s %s \n' % (gupiao.symbol, e)
+            fout.write(u'%s %s \n' % (gupiao.symbol, e))
+
+
 
 # totalDM()
 # totalDM2()
-caiwu()
 # xueqiu()
+# caiwu()
 # dongcai()
-# sohuzhangfu()
+sohuzhangfu()
 fout.close()
+
+
+
+# Gupiaolist = gupiaolist.objects.all()
+# for gupiao in Gupiaolist:
+#     gupiao.test6 =0
+#     gupiao.save()
+    # if gupiao.current != 0:
+    #     gupiao.test7 = gupiao.gjj/gupiao.current*100
+    #     gupiao.save()

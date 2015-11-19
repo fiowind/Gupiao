@@ -3,39 +3,157 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <title>选股</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
 <link href="" rel="stylesheet">
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        -webkit-font-smoothing:; antialiased;
+        box-sizing:; border-box
+    }
+    .header{
+        height: 3rem;
+        background: #BF5C5C;
+        text-align: center;
+        line-height: 3rem;
+        color: #fff;
+        font-size: 20px;
+        position: fixed;
+        width: 100vw;
+    }
+    form{
+        padding-top: 60px;
+    }
+    li{
+        height: 40px;
+        line-height: 40px;
+        padding-left: 4%;
+    }
+    li input[type=checkbox]{
+        /*display: none;*/
+    }
+    li input[type=text]{
+        width: 50px;
+    }
+    .submit button{
+        border: #A08358;
+        border-radius: 5px;
+        width: 200px;
+        height: 44px;
+        font-size: 16px;
+        color: #fff;
+        background: #BF5C5C;
+    }
+    .submit{
+        height: 50px;
+        line-height: 50px;
+        text-align: left;
+        padding-left: 4%;
+        margin-top: 30px;
+    }
+.checkboxOne input{
+    display: none
+}
+.checkboxOne label {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+ 
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    transition: all .5s ease;
+    cursor: pointer;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+ 
+    background: #ccc;
+}
+.checkboxOne {
+    width: 40px;
+    height: 10px;
+    background: #555;
+    margin: 20px 80px;
+    position: relative;
+    border-radius: 3px;
+}
+.checkboxOne input[type=checkbox]:checked + label {
+    left: 27px;
+    background: red
+}
+input[type=checkbox]:checked + .tst{
+    display: none;
+}
+</style>
 </head>
 <body>
+    <head>
+        <div class="header">选股小助手</div>
+    </head>
+
+
     <form method="post">{% csrf_token %}
-    筛选条件<br /><br />
-    <label><input name="v1" type="checkbox" value="1" />动态市盈率小于<input type="text" placeholder="50" name="vp1"></input> </label>
-    <br /><br />
-    <label><input name="v2" type="checkbox" value="2" />连续三季度净利润增长率大于<input type="text" name="vp2" placeholder="25"></input>％</label>
-     <br /><br />
-    <label><input name="v3" type="checkbox" value="3" />连续三年度净利润增长率大于<input type="text" name="vp3" placeholder="25"></input>％</label>
-     <br /><br />
-    <label><input name="v4" type="checkbox" value="4" />总市值小于<input type="text" placeholder="1000" name="vp4"></input>亿 </label>
-     <br /><br />
-    <label><input name="v5" type="checkbox" value="5" />每股资本公积金占股价<input type="text" name="vp5"></input>％以上</label>
-     <br /><br />
-    <label><input name="v6" type="checkbox" value="6" />近三年股价增长率大于<input type="text" name="vp6"></input>％</label>
-     <br /><br />
-    <label><input name="v7" type="checkbox" value="7" />销售毛利润大于<input placeholder="25" type="text" name="vp7"></input>％ </label>
-     <br /><br />
-    <label><input name="v8" type="checkbox" value="8" />主营业务收入增长率（年）<input placeholder="20" name="vp8" type="text"></input>％ </label>
-     <br /><br />
-     <button type="submit" class="btn-primary" id="postsubmit">
-         提交
-     </button>
+        <ul>
+            <li>
+                <input name="v1" type="checkbox" value="1" />
+                <span>动态市盈率小于</span>
+                <input class="tst" type="text" placeholder="50" name="vp1"></input>
+            </li>
+            <li>
+                <input name="v2" type="checkbox" value="2" />
+                <span>连续三季度净利润增长率大于</span>
+                <input type="text" class="tst" name="vp2" placeholder="25"></input>％
+            </li>
+            <li>
+                <input name="v3" type="checkbox" value="3" />
+                <span>连续三年度净利润增长率大于</span>
+                <input type="text" class="tst" name="vp3" placeholder="25"></input>％
+            </li>
+            <li>
+                <input name="v4" type="checkbox" value="4" />
+                <span>总市值小于</span>
+                <input type="text" class="tst" placeholder="1000" name="vp4"></input>亿
+            </li>
+            <li>
+                <input name="v5" type="checkbox" value="5" />
+                <span>每股资本公积金占股价</span>
+                <input type="text" class="tst" placeholder="10" name="vp5"></input>％以上
+            </li>
+            <li>
+                <input name="v6" type="checkbox" value="6" />
+                <span>近三年股价增长率大于</span>
+                <input type="text" class="tst" placeholder="100" name="vp6"></input>％
+            </li>
+            <li>
+                <input name="v7" type="checkbox" value="7" />
+                <span>销售毛利润大于</span>
+                <input placeholder="25" type="text" name="vp7"></input>％
+            </li>
+            <li>
+                <input name="v8" type="checkbox" value="8" />
+                <span>主营业务收入增长率（年）</span>
+                <input placeholder="20" name="vp8" type="text"></input>％
+            </li>
+            <div class="submit">
+                <button type="submit" class="btn-primary" id="postsubmit">
+                    确定提交
+                </button>
+            </div>
+        </ul>
+
     </form>
 
     <div class="container" style="display:none">
         <form class="form-signin" role="form" method="post"> {% csrf_token %}
             <h2 class="form-signin-heading">Please sign in</h2>
-            <input type="text" class="form-control" placeholder="User name" required="required" autofocus="" name="username" value={{ form.username }}>
+            <input type="text" class="tst" class="form-control" placeholder="User name" required="required" autofocus="" name="username" value={{ form.username }}>
             <input type="password" class="form-control" placeholder="Password" required="required" name="password" value={{ form.password }}>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
