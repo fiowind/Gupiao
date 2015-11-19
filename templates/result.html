@@ -51,8 +51,8 @@
 	        <tr class='error'>
 	            <td>{{ gupiao.code }}</td>
 	            <td><a href="http://quote.eastmoney.com/{{ gupiao.symbol }}.html" target="_blank">{{ gupiao.name }}</a></td>
-	            <td>{{ gupiao.pe_ttm }}</td>
-	            <td>{{ gupiao.current }}</td>
+	            <td>{{ gupiao.pe_ttm|roundtwo }}</td>
+	            <td>{{ gupiao.current|roundtwo }}</td>
 	            <td>{{ gupiao.marketCapital|chuyi:100000000}}</td>
 	            <td>{{ gupiao.netprofit_jd1|roundtwo }}%</td>
 	            <td>{{ gupiao.netprofit_jd2|roundtwo }}%</td>
