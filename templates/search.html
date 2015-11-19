@@ -98,7 +98,6 @@ input[type=checkbox]:checked + .tst{
         <div class="header">选股小助手</div>
     </head>
 
-
     <form method="post">{% csrf_token %}
         <ul>
             <li>
@@ -140,6 +139,10 @@ input[type=checkbox]:checked + .tst{
                 <input name="v8" type="checkbox" value="8" />
                 <span>主营业务收入增长率（年）</span>
                 <input placeholder="20" name="vp8" type="text"></input>％
+            </li>
+            <li>
+                <input name="v9" type="checkbox" value="9" />
+                <span>2015年新上市股票</span>
             </li>
             <div class="submit">
                 <button type="submit" class="btn-primary" id="postsubmit">

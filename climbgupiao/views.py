@@ -18,6 +18,7 @@ def search(req):
         v6 = req.POST.get('v6') if req.POST.get('v6') else False
         v7 = req.POST.get('v7') if req.POST.get('v7') else False
         v8 = req.POST.get('v8') if req.POST.get('v8') else False
+        v9 = req.POST.get('v9') if req.POST.get('v9') else False
 
         if v1:
             vp1 = req.POST.get('vp1') if req.POST.get('vp1') else 50.0
@@ -70,6 +71,12 @@ def search(req):
             else:
                 gupiaos = gupiaolist.objects.filter(dilutedroe__gt=vp8)
         # return HttpResponse("<div id='success'>WAITING</div>")
+        if v9:
+            if gupiaos:
+                gupiaos = gupiaos.filter(test9=1)
+            else:
+                gupiaos = gupiaolist.objects.filter(test9=1)
+
         return render_to_response('result.html',
                                   {'gupiaolist': gupiaos,
                                    },

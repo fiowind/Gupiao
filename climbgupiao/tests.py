@@ -73,7 +73,7 @@ def totalDM2():
         except Exception, e:
             raise e
         html = res.read()
-        reg = re.compile(r'class="blue" target="_blank">(30.\d*?)</a>')
+        reg = re.compile(r'class="blue" target="_blank">(60.\d*?)</a>')
         codes = reg.findall(html)
         for code in codes:
             print code
@@ -91,12 +91,100 @@ def totalDM2():
         except Exception, e:
             raise e
         html = res.read()
-        reg = re.compile(r'class="blue" target="_blank">(30.\d*?)</a>')
+        reg = re.compile(r'class="blue" target="_blank">(00.\d*?)</a>')
         codes = reg.findall(html)
         for code in codes:
             print code
             gupiao = gupiaolist(symbol='sz'+code, code=code, test9=1)
             gupiao.save()
+
+
+def totalDM2_round():
+    Gupiaolist = gupiaolist.objects.all()
+    for gupiao in Gupiaolist:
+        gupiao.test9 =0
+        gupiao.save()
+    tt = 0
+    for i in range(10):
+        c = str(i+1)
+        url = 'http://data.10jqka.com.cn/ipo/xgsgyzq/board/cyb/field/SGDATE/page/'+c+'/order/desc/ajax/1/'
+        print url
+        req = urllib2.Request(url)
+        req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0")
+        try:
+            res = urllib2.urlopen(req)
+            print 'ok1'
+        except Exception, e:
+            raise e
+        html = res.read()
+        reg = re.compile(r'class="blue" target="_blank">(30.\d*?)</a>')
+        codes = reg.findall(html)
+        if tt:
+            print 'stop 300'
+            break
+        for code in codes:
+            if code == '300410':
+                tt = 1
+                print 'meet 2014'
+                break
+            gupiao = gupiaolist.objects.get(code=code)
+            gupiao.test9 = 1
+            gupiao.save()
+            print code
+    tt = 0
+    for i in range(5):
+        c = str(i+1)
+        url = 'http://data.10jqka.com.cn/ipo/xgsgyzq/board/hszb/field/SGDATE/page/'+c+'/order/desc/ajax/1/'
+        print url
+        req = urllib2.Request(url)
+        req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0")
+        try:
+            res = urllib2.urlopen(req)
+            print 'ok1'
+        except Exception, e:
+            raise e
+        html = res.read()
+        reg = re.compile(r'class="blue" target="_blank">(60.\d*?)</a>')
+        codes = reg.findall(html)
+        if tt:
+            print 'stop 600'
+            break
+        for code in codes:
+            if code == '603889':
+                tt = 1
+                print 'meet 2014'
+                break
+            gupiao = gupiaolist.objects.get(code=code)
+            gupiao.test9 = 1
+            gupiao.save()
+            print code
+    tt = 0
+    for i in range(12):
+        c = str(i+1)
+        url = 'http://data.10jqka.com.cn/ipo/xgsgyzq/board/zxb/field/SGDATE/page/'+c+'/order/desc/ajax/1/'
+        print url
+        req = urllib2.Request(url)
+        req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0")
+        try:
+            res = urllib2.urlopen(req)
+            print 'ok1'
+        except Exception, e:
+            raise e
+        html = res.read()
+        reg = re.compile(r'class="blue" target="_blank">(00.\d*?)</a>')
+        codes = reg.findall(html)
+        if tt:
+            print 'stop 002'
+            break
+        for code in codes:
+            if code == '002738':
+                tt = 1
+                print 'meet 2014'
+                break
+            gupiao = gupiaolist.objects.get(code=code)
+            gupiao.test9 = 1
+            gupiao.save()
+            print code
 
 
 def fangkong(str):
@@ -251,14 +339,15 @@ def sohuzhangfu():
 # xueqiu()
 # caiwu()
 # dongcai()
-sohuzhangfu()
+# sohuzhangfu()
+totalDM2_round()
 fout.close()
 
 
 
 # Gupiaolist = gupiaolist.objects.all()
 # for gupiao in Gupiaolist:
-#     gupiao.test6 =0
+#     gupiao.test9 =0
 #     gupiao.save()
     # if gupiao.current != 0:
     #     gupiao.test7 = gupiao.gjj/gupiao.current*100
