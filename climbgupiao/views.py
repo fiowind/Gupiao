@@ -22,8 +22,8 @@ def search(req):
         if v1:
             vp1 = req.POST.get('vp1') if req.POST.get('vp1') else 50.0
             gupiaos = gupiaolist.objects.filter(pe_ttm__lte=vp1, pe_ttm__gt=0)
-            for gupiao in gupiaos:
-                print gupiao.code
+            # for gupiao in gupiaos:
+            #     print gupiao.code
         if v2:
             vp2 = req.POST.get('vp2') if req.POST.get('vp2') else 25.0
             if gupiaos:
