@@ -80,7 +80,7 @@ def search(req):
                 gupiaos = gupiaolist.objects.filter(test9=1)
         if v10:
             vp10 = req.POST.get('vp10') if req.POST.get('vp10') else 10.0
-            vp10 = vp10*100000000
+            vp10 = float(vp10)*100000000
             if gupiaos:
                 gupiaos = gupiaos.filter(test2__lte=vp10)
             else:
