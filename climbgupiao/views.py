@@ -19,6 +19,8 @@ def search(req):
         v7 = req.POST.get('v7') if req.POST.get('v7') else False
         v8 = req.POST.get('v8') if req.POST.get('v8') else False
         v9 = req.POST.get('v9') if req.POST.get('v9') else False
+        v10 = req.POST.get('v10') if req.POST.get('v10') else False
+
 
         if v1:
             vp1 = req.POST.get('vp1') if req.POST.get('vp1') else 50.0
@@ -76,6 +78,13 @@ def search(req):
                 gupiaos = gupiaos.filter(test9=1)
             else:
                 gupiaos = gupiaolist.objects.filter(test9=1)
+        if v10:
+            vp10 = req.POST.get('vp10') if req.POST.get('vp10') else 10.0
+            vp10 = vp10*100000000
+            if gupiaos:
+                gupiaos = gupiaos.filter(test2__lte=vp10)
+            else:
+                gupiaos = gupiaolist.objects.filter(test2__lte=vp10)
 
         return render_to_response('result.html',
                                   {'gupiaolist': gupiaos,

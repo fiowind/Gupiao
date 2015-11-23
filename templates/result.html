@@ -45,6 +45,7 @@
 	    	  <th>主营业务收入增长率(3平)</th>
 	    	  <th>每股资本公积金占股价</th>
 			  <th>近三年股价增长率</th>
+			  <th>总股本</th>
 	    	</tr>
 	        {% if gupiaolist %}
 	        {% for gupiao in gupiaolist %}
@@ -64,6 +65,7 @@
 	            <td>{{ gupiao.dilutedroe|roundtwo }}%</td>
 	            <td>{{ gupiao.test7|roundtwo }}%</td>
 	            <td>{{ gupiao.test3|roundtwo }}%</td>
+	            <td>{{ gupiao.test2|chuyi:100000000 }}亿</td>
 	        </tr>
 	        {% endfor %}
 	        {% endif %}
