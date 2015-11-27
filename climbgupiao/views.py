@@ -4,9 +4,65 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django import forms
-from models import gupiaolist
+from models import gupiaolist,bankuai,bankuailist
+
+def compare_result(list1,list2):
+    cs =[]
+    for a in list1:
+        if a in list2:
+            cs.append(a)
+    return cs
 
 
+def codesearch(req):
+    if req.method == 'POST':
+        gupiaos = []
+        bankuais = []
+        gid = req.POST.get('gid') if req.POST.get('gid') else False
+        if gid:
+            gupiaos = gupiaolist.objects.filter(code=gid)
+        if gupiaos:
+            bankuais = bankuailist.objects.filter(code = gupiaos[0].code)
+            print bankuais
+
+        return render_to_response('result.html',
+                                  {'gupiaolist': gupiaos,
+                                   'bankuais':bankuais,
+                                   },
+                                  context_instance=RequestContext(req))
+def ajaxlist(req):
+    if req.method == 'POST':
+        gupiaos = []
+        havelist = False
+        print req.POST
+        # data = dict(request.GET._iterlists())
+        for key, bk_name in req.POST.iteritems():
+            print bk_name
+            bankuais = bankuailist.objects.filter(bankuai_name = bk_name)
+            print len(bankuais)
+            if gupiaos or havelist:
+                gupiaos_tmp = []
+                for bankuai in bankuais:
+                    code = bankuai.code
+                    gp = gupiaolist.objects.filter(code=code)
+                    if(gp):
+                        gupiaos_tmp.append(gp[0])
+                if gupiaos_tmp:
+                    gupiaos = compare_result(gupiaos,gupiaos_tmp)
+            else:
+                for bankuai in bankuais:
+                    code = bankuai.code
+                    gp = gupiaolist.objects.filter(code=code)
+                    if(gp):
+                        gupiaos.append(gp[0])
+                if gupiaos:
+                    havelist = True
+                # print gupiaos
+            print gupiaos
+        return render_to_response('ajaxlist.html',
+                                  {'gupiaolist': gupiaos,
+                                   },
+                                  context_instance=RequestContext(req))
 def search(req):
     if req.method == 'POST':
         gupiaos = []

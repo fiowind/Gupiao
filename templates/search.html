@@ -25,9 +25,6 @@
         position: fixed;
         width: 100vw;
     }
-    form{
-        padding-top: 60px;
-    }
     li{
         height: 40px;
         line-height: 40px;
@@ -91,13 +88,22 @@
 input[type=checkbox]:checked + .tst{
     display: none;
 }
+.searchcode{
+    padding: 80px 0 10px 0;
+    padding-left: 4%;
+}
 </style>
 </head>
 <body>
     <head>
         <div class="header">选股小助手</div>
     </head>
-
+    <form method="post" action="/codesearch" class="searchcode">{% csrf_token %}
+        股票代码<input type="text" name='gid'/>
+        <button type="submit" class="btn-primary" id="postsubmit">
+            确定提交
+        </button>
+    </form>
     <form method="post">{% csrf_token %}
         <ul>
             <li>
@@ -157,6 +163,8 @@ input[type=checkbox]:checked + .tst{
         </ul>
 
     </form>
+
+
 
     <div class="container" style="display:none">
         <form class="form-signin" role="form" method="post"> {% csrf_token %}

@@ -28,7 +28,7 @@ class gupiaolist(models.Model):
     test2 = models.FloatField(default=0)  #totalShares 总股本
     test3 = models.FloatField(default=0)  #三年股价增长
     test4 = models.FloatField(default=0)  #一年股价增长
-    test5 = models.FloatField(default=0)  #test
+    test5 = models.FloatField(default=0)  #
     test6 = models.FloatField(default=0)  #test
     test7 = models.FloatField(default=0)  #每股资本公积金占股价
     test8 = models.FloatField(default=0)  #test  近三年股价增长率
@@ -48,9 +48,18 @@ class gupiaolist(models.Model):
     primary = ('symbol', 'name')
 
 
+class bankuai(models.Model):
+    fenlei_name = models.CharField(max_length=15)
+    bankuai_name = models.CharField(max_length=15,primary_key=True)
+    def __unicode__(self):
+        return u'%s %s' % (self.fenlei_name, self.bankuai_name)
+
 class bankuailist(models.Model):
-    name = models.CharField(max_length=15,primary_key=True)
-    daima = models.CharField(max_length=15)
+    bankuai_name = models.CharField(max_length=15)
+    code = models.CharField(max_length=10, default='0')
+    name = models.CharField(max_length=10)
+    primary = ('bankuai_name', 'code')
+
 
     def __unicode__(self):
-        return u'%s %s' % (self.name, self.daima)
+        return u'%s %s' % (self.bankuai_name, self.name)

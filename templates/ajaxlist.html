@@ -1,0 +1,32 @@
+{% load filter  %}
+{% block ajaxlist%}
+<div id='bankuailist'>
+	<table class="tableac" style="width: 100%;">
+	    <tbody>
+	        {% if gupiaolist %}
+	        {% for gupiao in gupiaolist %}
+	        <tr class='error'>
+	            <td>{{ gupiao.code }}</td>
+	            <td><a href="http://quote.eastmoney.com/{{ gupiao.symbol }}.html" target="_blank">{{ gupiao.name }}</a></td>
+	            <td>{{ gupiao.pe_ttm|roundtwo }}</td>
+	            <td>{{ gupiao.current|roundtwo }}</td>
+	            <td>{{ gupiao.marketCapital|chuyi:100000000}}</td>
+	            <td>{{ gupiao.netprofit_jd1|roundtwo }}%</td>
+	            <td>{{ gupiao.netprofit_jd2|roundtwo }}%</td>
+	            <td>{{ gupiao.netprofit_jd3|roundtwo }}%</td>
+	            <td>{{ gupiao.netprofit_nd1|roundtwo }}%</td>
+	            <td>{{ gupiao.netprofit_nd2|roundtwo }}%</td>
+	            <td>{{ gupiao.netprofit_nd3|roundtwo }}%</td>
+	            <td>{{ gupiao.salegrossprofitrto|roundtwo }}%</td>
+	            <td>{{ gupiao.dilutedroe|roundtwo }}%</td>
+	            <td>{{ gupiao.test7|roundtwo }}%</td>
+	            <td>{{ gupiao.test3|roundtwo }}%</td>
+	            <td>{{ gupiao.test2|chuyi:100000000 }}亿</td>
+	        </tr>
+	        {% endfor %}
+	        {% endif %}
+	    </tbody>
+	</table>
+</div>
+<style type="text/css"></style>
+{% endblock %}

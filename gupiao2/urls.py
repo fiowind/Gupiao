@@ -8,6 +8,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^$', include('climbgupiao.urls')),
-    url(r'^search/$', include('climbgupiao.urls')),
+    url(r'^$', 'climbgupiao.views.search', name='search'),
+    url(r'^search$', 'climbgupiao.views.search', name='search'),
+    url(r'^codesearch$', 'climbgupiao.views.codesearch', name='codesearch'),
+    url(r'^ajaxlist$', 'climbgupiao.views.ajaxlist', name='ajaxlist'),
 )

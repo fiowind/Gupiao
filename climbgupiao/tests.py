@@ -2,15 +2,15 @@
 #coding=utf-8
 
 
-from models import gupiaolist
+from models import gupiaolist,bankuai,bankuailist
 import urllib2, httplib, urlparse
 import re, os, json
 
 # import sqlite3 as dbapi
 # con = dbapi.connect('db.sqlite3')
 # con.text_factory = str
-# fin = open("./output_action.txt", mode='r')
-# data = fin.read()
+fin = open("./input.txt", mode='r')
+data = fin.read()
 fout = open("./output_action.txt", mode='w')
 
 # reg = re.compile(r'每股公积金\(元\)</span></td><td class="tips-data-Right"><span>(.*?)</span>')
@@ -43,6 +43,7 @@ def totalDM():
         gupiao.save()
 
 def totalDM2():
+    d = False
     for i in range(10):
         c = str(i+1)
         url = 'http://data.10jqka.com.cn/ipo/xgsgyzq/board/cyb/field/SGDATE/page/'+c+'/order/desc/ajax/1/'
@@ -333,14 +334,58 @@ def sohuzhangfu():
             fout.write(u'%s %s \n' % (gupiao.symbol, e))
 
 
+def climb_one():
+    totalDM()
+    totalDM2()
+    xueqiu()
+    caiwu()
+    dongcai()
+    sohuzhangfu()
+    totalDM2_round()
+    fout.close()
+def bankuaiget():
+    reg = re.compile(r'<span class="text">(.*?)</span>')
+    # print data
+    codes = reg.findall(data)
+    go = False
+    for code in codes:
+        if go:
+        # code.decode('gb2312')
+            bk = bankuai(fenlei_name='行业板块', bankuai_name=code)
+            bk.save()
+            print code
+        if code == '行业板块':
+            go = True
+        if code == '综合行业':
+            break
 
-# totalDM()
-# totalDM2()
-# xueqiu()
-# caiwu()
-# dongcai()
-# sohuzhangfu()
-totalDM2_round()
+def getbankuailist():
+    sum = 0
+    url = 'http://quote.eastmoney.com/center/'
+    reg = re.compile(r'<a href="list.html#(.*?)_0_2".*?<span class="text">(.*?)</span>')
+    codes = reg.findall(data)
+    for code in codes:
+        bkname = code[1]
+        requrl = 'http://hqdigi2.eastmoney.com/EM_Quote2010NumericApplication/index.aspx?type=s&sortType=C&sortRule=-1&pageSize=180&page=2&jsName=quote_123&style='+ code[0] +'&token=44c9d251add88e27b65ed86506f6e5da&_g=0.8568394125904888'
+        req = urllib2.Request(requrl)
+        req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0")
+        try:
+            res = urllib2.urlopen(req)
+        except Exception, e:
+            print e
+        html = res.read()
+        # print html
+        reg2 =re.compile(r'"(.*?)"')
+        details = reg2.findall(html)
+        for detail in details:
+            infos = detail.split(',');
+            newbklist = bankuailist(bankuai_name=bkname,code=infos[1],name=infos[2])
+            newbklist.save()
+            print infos[1]
+            sum += 1;
+    print sum
+
+getbankuailist()
 fout.close()
 
 

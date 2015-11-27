@@ -7,6 +7,7 @@
 <title>筛选结果</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
+<script src="/static/js/jquery.min.js"></script>
 <style type="text/css">
    body{
    	font-size: 11px;
@@ -23,9 +24,70 @@
 	th{
 		font-size: 11px;
 	}
-</style></head>
+	.bankuaili{
+		display: inline-block;
+	}
+	.bankuaili label{
+		display: inline-block;
+		background: #eee;
+		line-height: 25px;
+		width: 79px;
+		text-align: center;
+	}
+	.bankuaili label:hover{
+		background: #ddd;
+		cursor: pointer;
+	}
+	input[type=checkbox] {
+		visibility: hidden;
+	}
+	.bankuaili input[type=checkbox]:checked + label {
+		background: #333;
+		color: #fff;
+	}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.bankuaili input').change(function() {
+		// e.preventDefault();
+		console.log('test');
+		$.ajax({
+		    type: "POST",
+		    data: $('#bankuaiform').serialize(),
+		    url: "{% url 'ajaxlist' %}",
+		    cache: false,
+		    dataType: "html",
+		    success: function(html, textStatus) {
+		        $('#bankuailist').replaceWith(html);
+		    },
+		    error: function(XMLHttpRequest, textStatus, errorThrown) {
+		        alert('Error occurs!');
+		    }
+		});
+	});
+});
+</script>
+</head>
 <body>
 	<p>注：新股显示的是上市至今的增长率</p>
+
+	{% block bankuailist %}
+	{% if bankuais %}
+	<form id="bankuaiform" method="post" action="/ajaxlist">{% csrf_token %}
+	<ul>
+		{% for bankuai in bankuais %}
+		<li class="bankuaili">
+			<input type="checkbox" value="{{ bankuai.bankuai_name }}" id="bk{{ forloop.revcounter0 }}" name="bk{{ forloop.revcounter0 }}" />
+			<label for="bk{{ forloop.revcounter0 }}">{{ bankuai.bankuai_name }}</label>
+		</li>
+		{% endfor %}
+	</ul>
+	<button type="submit" id="postsubmit" style="display:none"></button>
+	</form>
+	{% endif %}
+	{% endblock %}
+
+
 	{% block gupiaolist %}
 	<table class="tableac">
 	    <tbody>
@@ -72,5 +134,7 @@
 	    </tbody>
 	</table>
 	{% endblock %}
+
+<div id="bankuailist"></div>
 </body>
 </html>
