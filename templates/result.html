@@ -75,6 +75,7 @@ $(document).ready(function() {
 	{% if bankuais %}
 	<form id="bankuaiform" method="post" action="/ajaxlist">{% csrf_token %}
 	<ul>
+		所属板块:
 		{% for bankuai in bankuais %}
 		<li class="bankuaili">
 			<input type="checkbox" value="{{ bankuai.bankuai_name }}" id="bk{{ forloop.revcounter0 }}" name="bk{{ forloop.revcounter0 }}" />
